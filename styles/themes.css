@@ -1,0 +1,78 @@
+/*
+ * Mingle theme tokens — single source of truth for both themes.
+ * Values marked (brief) come straight from the handoff brief §3.
+ * Values marked (derived) are not in the brief; they were chosen to complete
+ * the system and are documented in docs/DESIGN_SYSTEM.md.
+ *
+ * The resolved theme is written to <html data-theme="dark|light"> by the
+ * inline script in lib/theme.ts. Light is the fallback (no-JS / first paint).
+ */
+
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --background: #09090a; /* (brief) */
+  --surface: #161617; /* (brief) */
+  --surface-raised: #1f1f21; /* (derived) menus, popovers, pressed states */
+  --foreground: #f4f4f6; /* (brief) */
+  --muted: #8e8e98; /* (brief) */
+  --border: rgba(255, 255, 255, 0.08); /* (derived) */
+
+  --brand: #ff6a1f; /* (brief) */
+  --on-brand: #09090a; /* (derived) white on #FF6A1F is only 2.9:1; dark text is 6.9:1 */
+  --verified: #4c8dff; /* (brief) */
+  --on-verified: #ffffff; /* (derived) */
+  --star: #ffc24b; /* (brief) */
+
+  --glass-fill: rgba(255, 255, 255, 0.12); /* (brief) */
+  --glass-border: rgba(255, 255, 255, 0.18); /* (brief) */
+
+  --focus: #ff6a1f; /* (derived) 6.9:1 on background */
+  --danger: #ff6b6b; /* (derived) */
+  --success: #3dd68c; /* (derived) */
+
+  --elev-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 24px 48px -24px rgba(0, 0, 0, 0.7);
+  --elev-float: 0 12px 40px -8px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  --background: #f4f4f1; /* (brief) */
+  --surface: #ffffff; /* (brief) */
+  --surface-raised: #fbfbf9; /* (derived) */
+  --foreground: #171719; /* (brief) */
+  --muted: #73737c; /* (brief) */
+  --border: rgba(23, 23, 25, 0.1); /* (derived) */
+
+  --brand: #ff6a1f; /* (brief) same accent in both themes */
+  --on-brand: #09090a; /* (derived) */
+  --verified: #4c8dff; /* (brief) */
+  --on-verified: #ffffff; /* (derived) */
+  --star: #ffc24b; /* (brief) */
+
+  --glass-fill: rgba(255, 255, 255, 0.72); /* (derived) */
+  --glass-border: rgba(23, 23, 25, 0.08); /* (derived) */
+
+  --focus: #171719; /* (derived) orange is only 2.6:1 on the light background */
+  --danger: #c62828; /* (derived) */
+  --success: #15803d; /* (derived) */
+
+  --elev-card: 0 1px 2px rgba(23, 23, 25, 0.06), 0 16px 32px -20px rgba(23, 23, 25, 0.2);
+  --elev-float: 0 12px 32px -8px rgba(23, 23, 25, 0.22);
+}
+
+/* Theme-independent: photos need legible overlays in both themes. */
+:root {
+  --on-photo: #f4f4f6;
+  /* Glass for controls that sit ON photos: same in both themes (brief glass values). */
+  --glass-photo-fill: rgba(255, 255, 255, 0.12);
+  --glass-photo-border: rgba(255, 255, 255, 0.18);
+  --photo-scrim: linear-gradient(
+    to top,
+    rgba(9, 9, 10, 0.92) 0%,
+    rgba(9, 9, 10, 0.55) 45%,
+    rgba(9, 9, 10, 0) 100%
+  );
+}

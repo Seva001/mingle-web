@@ -1,0 +1,143 @@
+@import "tailwindcss";
+@import "./themes.css";
+
+/* Dark mode variant keyed to the resolved theme attribute, not the OS query. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/*
+ * Utilities read the live CSS variables from themes.css, so one component set
+ * serves both themes (brief: "do not build two separate interfaces").
+ */
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-line: var(--border);
+  --color-brand: var(--brand);
+  --color-on-brand: var(--on-brand);
+  --color-verified: var(--verified);
+  --color-on-verified: var(--on-verified);
+  --color-star: var(--star);
+  --color-glass: var(--glass-fill);
+  --color-glass-line: var(--glass-border);
+  --color-focus: var(--focus);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+  --color-on-photo: var(--on-photo);
+
+  --font-sans:
+    "Inter Variable", "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    sans-serif;
+
+  --shadow-card: var(--elev-card);
+  --shadow-float: var(--elev-float);
+
+  /* Type scale (1.2 ratio, display sizes fluid). */
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.25rem;
+  --text-body: 1rem;
+  --text-body--line-height: 1.6;
+  --text-lead: 1.1875rem;
+  --text-lead--line-height: 1.55;
+  --text-title: 1.5rem;
+  --text-title--line-height: 1.2;
+  --text-headline: clamp(1.875rem, 1.4rem + 2vw, 2.75rem);
+  --text-headline--line-height: 1.08;
+  --text-display: clamp(2.5rem, 1.6rem + 4.4vw, 4.75rem);
+  --text-display--line-height: 1.02;
+}
+
+/* Non-themed tokens: emitted as real variables so they are usable in plain CSS too. */
+@theme {
+  --radius-card: 1.75rem;
+  --radius-control: 1rem;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Subtle entrance for the hero. prefers-reduced-motion (base layer below) collapses it. */
+  --animate-rise: rise 0.7s var(--ease-out) both;
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background: var(--background);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--brand);
+    color: var(--on-brand);
+  }
+
+  /* Visible keyboard focus everywhere; mouse clicks stay quiet. */
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 0.375rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Display type: Inter's optical-size axis stands in for "Inter Display". */
+  .font-display {
+    font-variation-settings: "opsz" 32;
+    font-weight: 700;
+    letter-spacing: -0.035em;
+  }
+
+  .glass {
+    background: var(--glass-fill);
+    border: 1px solid var(--glass-border);
+    -webkit-backdrop-filter: blur(24px) saturate(1.4);
+    backdrop-filter: blur(24px) saturate(1.4);
+  }
+
+  /* Over-photo glass: dark-photo look in both themes so on-photo text stays legible. */
+  .glass-photo {
+    background: var(--glass-photo-fill);
+    border: 1px solid var(--glass-photo-border);
+    -webkit-backdrop-filter: blur(24px) saturate(1.4);
+    backdrop-filter: blur(24px) saturate(1.4);
+    color: var(--on-photo);
+  }
+
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
