@@ -221,7 +221,6 @@ begin
   ) or (select count(*) from public.profile_photos p where p.account_id = member_id) <> total_count then
     raise exception 'invalid photo order' using errcode = '22023';
   end if;
-  set constraints profile_photos_account_position_key deferred;
   update public.profile_photos p set position = ordinality - 1
   from unnest(photo_ids) with ordinality as ordered(id, ordinality)
   where p.id = ordered.id and p.account_id = member_id;
